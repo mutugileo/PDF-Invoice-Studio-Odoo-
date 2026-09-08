@@ -25,7 +25,9 @@ Tested against Odoo 17.0.
 
 """,
     'author': 'Codzure Solutions',
-    'website': 'https://github.com/codzure',
+    # TODO: point this at a real support destination before launch.
+    # https://github.com/codzure returned 404; this profile is reachable.
+    'website': 'https://github.com/mutugileo',
     'license': 'OPL-1',
     # Odoo reads the listing price from the manifest. Only EUR and USD are
     # supported. Odoo also requires this to be the lowest price the module is

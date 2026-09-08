@@ -25,8 +25,14 @@ rather than replacing the report.
 
 ## Install
 
+The module lives in a subdirectory of this repository, so the addons path must
+point at the **repository root** — the directory containing `pdf_invoice_studio/`,
+not the module folder itself.
+
 ```bash
-python odoo-bin -d <database> --addons-path=<paths> -i pdf_invoice_studio
+python odoo-bin -d <database> \
+  --addons-path=/path/to/odoo/addons,/path/to/PDF-Invoice-Studio-Odoo- \
+  -i pdf_invoice_studio --stop-after-init
 ```
 
 Then: **Invoicing → Configuration → Settings → PDF Invoice Studio**.
@@ -38,7 +44,8 @@ the next print.
 ## Tests
 
 ```bash
-python odoo-bin -d <database> --addons-path=<paths> \
+python odoo-bin -d <database> \
+  --addons-path=/path/to/odoo/addons,/path/to/PDF-Invoice-Studio-Odoo- \
   -i pdf_invoice_studio --test-enable --test-tags pdf_invoice_studio --stop-after-init
 ```
 
