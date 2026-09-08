@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Server Action: Bulk Export Invoices to ZIP -->
+    <record id="action_account_move_export_zip" model="ir.actions.server">
+        <field name="name">Export Invoices to ZIP (PDFs)</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">
+action = records.action_export_invoices_zip()
+        </field>
+    </record>
+</odoo>

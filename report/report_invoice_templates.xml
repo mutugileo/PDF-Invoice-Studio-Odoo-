@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        The branded billing block, defined once and called from each of the core
+        template's address branches.
+    -->
+    <template id="billing_address_block">
+        <t t-set="is_identical" t-value="o.is_shipping_identical_to_billing()"/>
+        <t t-set="hide_shipping" t-value="o.company_id.shipping_address_mode == 'never' or (o.company_id.shipping_address_mode == 'auto' and is_identical)"/>
+        <div t-if="o.company_id.show_billing_address" t-attf-class="{{ 'col-12' if hide_shipping else 'col-6' }} ps-0 pe-2 mb-3">
+            <div class="p-2" style="background-color: #f8fafc; border-left: 3px solid #64748b; border-radius: 4px;">
+                <strong class="text-uppercase text-muted" style="font-size: 10px; letter-spacing: 0.5px;">Billed To</strong>
+                <div t-field="o.partner_id" t-options='{"widget": "contact", "fields": ["address", "name", "phone", "email"], "no_marker": False}' style="font-size: 12px; line-height: 1.4;"/>
+                <div t-if="o.partner_id.vat" class="mt-1" style="font-size: 11px;">
+                    <span class="text-muted" t-esc="o.company_id.tax_id_label or 'Tax ID'"/>: <strong><span t-field="o.partner_id.vat"/></strong>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="report_invoice_document_inherit_pdf_invoice_studio" inherit_id="account.report_invoice_document" priority="20">
+        <!--
+            1. Dynamic Address Collapsing & Layout Balance
+
+            account.report_invoice_document declares three mutually exclusive
+            `t-set="address"` branches - shipping differs, shipping matches, and no
+            shipping partner. A bare //t[@t-set='address'] xpath matches only the
+            first, so the branded block used to disappear whenever the shipping
+            address matched the billing one, which is the common case. Each branch is
+            therefore targeted through its named wrapper div.
+        -->
+        <xpath expr="//div[@name='address_not_same_as_shipping']/t[@t-set='address']" position="replace">
+            <t t-set="address">
+                <t t-call="pdf_invoice_studio.billing_address_block"/>
+            </t>
+        </xpath>
+
+        <xpath expr="//div[@name='address_same_as_shipping']/t[@t-set='address']" position="replace">
+            <t t-set="address">
+                <t t-call="pdf_invoice_studio.billing_address_block"/>
+            </t>
+        </xpath>
+
+        <xpath expr="//div[@name='no_shipping']/t[@t-set='address']" position="replace">
+            <t t-set="address">
+                <t t-call="pdf_invoice_studio.billing_address_block"/>
+            </t>
+        </xpath>
+
+        <xpath expr="//t[@t-set='information_block']" position="replace">
+            <t t-set="information_block">
+                <t t-set="is_identical" t-value="o.is_shipping_identical_to_billing()"/>
+                <t t-set="hide_shipping" t-value="o.company_id.shipping_address_mode == 'never' or (o.company_id.shipping_address_mode == 'auto' and is_identical)"/>
+                <div t-if="not hide_shipping and o.partner_shipping_id and o.partner_shipping_id != o.partner_id" class="col-6 ps-2 pe-0 mb-3">
+                    <div class="p-2" style="background-color: #f8fafc; border-left: 3px solid #94a3b8; border-radius: 4px;">
+                        <strong class="text-uppercase text-muted" style="font-size: 10px; letter-spacing: 0.5px;">Shipped To</strong>
+                        <div t-field="o.partner_shipping_id" t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": False}' style="font-size: 12px; line-height: 1.4;"/>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+
+        <!--
+            1b. Status watermark
+
+            The stamp prints on the first page. position:fixed does NOT repeat
+            across pages in wkhtmltopdf 0.12.6 (verified: page 2 of a two-page
+            invoice comes back unstamped), so this is deliberately a first-page
+            mark, the way a physical stamp is applied.
+
+            Placement and stacking details are on the stylesheet below.
+        -->
+        <xpath expr="//div[hasclass('page')]" position="inside">
+            <t t-set="pis_watermark" t-value="o.get_invoice_watermark()"/>
+            <t t-if="pis_watermark">
+                <!--
+                    Colour arrives already blended toward white: wkhtmltopdf ignores
+                    CSS opacity here and would print the stamp at full strength.
+                -->
+                <div class="pis-watermark"
+                     t-attf-style="-webkit-text-stroke-color: {{ o.get_invoice_watermark_color() }}; font-size: {{ o.get_invoice_watermark_font_size() }}px;">
+                    <span t-esc="pis_watermark"/>
+                </div>
+                <style>
+                    /*
+                        Anchored to .page, not the viewport. position:fixed does not
+                        resolve against the page in wkhtmltopdf once the layout has a
+                        positioned ancestor - it landed near the top of the document
+                        and ran off the right edge. Absolute inside .page is
+                        predictable in both the HTML preview and the PDF.
+
+                        Size is set per stamp by get_invoice_watermark_font_size(),
+                        because one size cannot serve both ends: 58px left OVERDUE
+                        lost on a dense 30-line invoice, while PARTIALLY PAID clips
+                        long before the size that fixes that. Both verified in print.
+
+                        Sat at 260px originally, which put the diagonal straight
+                        through the middle of the line-item table. 330px biases it
+                        toward the totals and the whitespace below, where it crosses
+                        far fewer figures on a typical invoice.
+
+                        Drawn above the content, because z-index:-1 put the stamp
+                        behind the line-item table's opaque white background and hid
+                        half of it. Sitting on top means it must not occlude anything:
+                        a filled glyph covered the amounts, so the stamp is a hollow
+                        outline. Verified in wkhtmltopdf 0.12.6 - figures underneath
+                        stay fully legible.
+                    */
+                    .page { position: relative; }
+                    .pis-watermark {
+                        position: absolute;
+                        top: 330px;
+                        left: 0;
+                        right: 0;
+                        width: 100%;
+                        text-align: center;
+                        font-weight: 700;
+                        letter-spacing: 2px;
+                        line-height: 1;
+                        white-space: nowrap;
+                        color: transparent;
+                        -webkit-text-stroke-width: 1.5px;
+                        transform: rotate(-28deg);
+                        -webkit-transform: rotate(-28deg);
+                        transform-origin: 50% 50%;
+                        -webkit-transform-origin: 50% 50%;
+                        z-index: 1;
+                        pointer-events: none;
+                    }
+                </style>
+            </t>
+        </xpath>
+
+        <!-- 2. Header Document Title & Corporate Fiscal Badges -->
+        <xpath expr="//div[hasclass('page')]/h2" position="before">
+            <div class="row mb-2">
+                <div class="col-8">
+                    <h3 t-if="o.company_id.invoice_title" class="mb-0 text-uppercase font-weight-bold" t-attf-style="color: {{ o.company_id.primary_color or '#1e293b' }}; letter-spacing: 0.5px;">
+                        <span t-esc="o.company_id.invoice_title"/>
+                    </h3>
+                </div>
+                <div class="col-4 text-end" style="font-size: 11px;">
+                    <div t-if="o.company_id.show_tax_id and o.company_id.vat">
+                        <span class="text-muted" t-esc="o.company_id.tax_id_label or 'Tax ID'"/>: <strong><span t-field="o.company_id.vat"/></strong>
+                    </div>
+                    <div t-if="o.company_id.show_company_registry and (o.company_id.business_registration_number or o.company_id.company_registry)">
+                        <span class="text-muted">Reg No:</span> <strong><span t-esc="o.company_id.business_registration_number or o.company_id.company_registry"/></strong>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+
+        <!-- 3. Primary Color Accent on Table Headers -->
+        <xpath expr="//table[hasclass('o_main_table')]/thead" position="attributes">
+            <attribute name="t-attf-style">background-color: {{ o.company_id.primary_color or '#1e293b' }}; color: #ffffff;</attribute>
+        </xpath>
+
+        <!-- 4. Payment Instructions, Authorized Signatures & Corporate Stamp Block -->
+        <xpath expr="//div[hasclass('page')]" position="inside">
+            <!-- Structured Bank & Payment Instructions -->
+            <div t-if="o.company_id.payment_instructions" class="row mt-4 mb-3" style="page-break-inside: avoid;">
+                <div class="col-12">
+                    <div class="p-3" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px;">
+                        <strong class="text-uppercase" style="font-size: 11px; letter-spacing: 0.5px; color: #475569;">Payment Instructions &amp; Bank Details</strong>
+                        <!-- payment_instructions is an Html field, so the ORM returns Markup
+                             and t-out renders it without escaping. t-raw is deprecated in 17
+                             and removed in later versions. -->
+                        <div class="mt-2" style="font-size: 12px; line-height: 1.5;" t-out="o.company_id.payment_instructions"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Footer Note -->
+            <div t-if="o.company_id.invoice_footer_note" class="row mt-2" style="page-break-inside: avoid;">
+                <div class="col-12 text-center text-muted fst-italic" style="font-size: 11px;">
+                    <span t-esc="o.company_id.invoice_footer_note"/>
+                </div>
+            </div>
+
+            <!-- Authorized Signatory & Company Stamp -->
+            <!--
+                A real table, not a Bootstrap row. wkhtmltopdf's WebKit does not lay
+                out the flex grid here: col-6 collapsed and the seal and signature
+                stacked down the left margin instead of sitting side by side.
+                Verified in print - two <td> cells hold the two columns reliably.
+            -->
+            <table t-if="o.company_id.authorized_signature or o.company_id.company_stamp"
+                   style="width: 100%; border-collapse: collapse; margin-top: 24px; page-break-inside: avoid;">
+                <tr>
+                    <td style="width: 50%; text-align: center; vertical-align: bottom; border: 0; padding: 0;">
+                        <t t-if="o.company_id.company_stamp">
+                            <img t-att-src="image_data_uri(o.company_id.company_stamp)" style="max-height: 85px; max-width: 160px;" alt="Company Seal"/>
+                            <div style="font-size: 10px; color: #6b7280; margin-top: 4px;">Official Corporate Seal</div>
+                        </t>
+                    </td>
+                    <td style="width: 50%; text-align: center; vertical-align: bottom; border: 0; padding: 0;">
+                        <t t-if="o.company_id.authorized_signature">
+                            <img t-att-src="image_data_uri(o.company_id.authorized_signature)" style="max-height: 70px; max-width: 180px;" alt="Authorized Signature"/>
+                            <div style="border-top: 1px solid #94a3b8; margin: 4px auto 0 auto; padding-top: 4px; width: 70%;">
+                                <strong style="font-size: 11px;"><span t-esc="o.company_id.authorized_signatory_name or 'Authorized Signatory'"/></strong>
+                                <div t-if="o.company_id.authorized_signatory_title" style="font-size: 10px; color: #6b7280;">
+                                    <span t-esc="o.company_id.authorized_signatory_title"/>
+                                </div>
+                            </div>
+                        </t>
+                    </td>
+                </tr>
+            </table>
+        </xpath>
+    </template>
+</odoo>

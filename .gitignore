@@ -1,0 +1,15 @@
+# Build artefacts
+dist/
+*.zip
+
+# Python
+__pycache__/
+*.py[cod]
+
+# macOS
+.DS_Store
+
+# Internal commercial documents - deliberately not published.
+# Competitor pricing, pricing strategy, and retired marketing claims.
+blueprint.md
+docs/

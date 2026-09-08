@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherit_pdf_invoice_studio" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.pdf.invoice.studio</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="70"/>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="PDF Invoice Studio" string="PDF Invoice Studio" name="pdf_invoice_studio" groups="account.group_account_manager">
+                    <block title="Document Identity &amp; Fiscal Information" id="pdf_invoice_identity_block">
+                        <setting id="pdf_invoice_title_setting" string="Document Title &amp; Label" help="Set the primary title displayed at the top of customer invoices">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="invoice_title" class="col-lg-3 o_light_label"/>
+                                    <field name="invoice_title" placeholder="e.g. TAX INVOICE"/>
+                                </div>
+                                <div class="row mt8">
+                                    <label for="tax_id_label" class="col-lg-3 o_light_label"/>
+                                    <field name="tax_id_label" placeholder="e.g. Tax / VAT PIN"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting id="pdf_invoice_fiscal_setting" string="Registration &amp; Tax IDs" help="Display company registration and tax numbers in the document header">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="business_registration_number" class="col-lg-3 o_light_label"/>
+                                    <field name="business_registration_number" placeholder="e.g. CPR/2024/098765"/>
+                                </div>
+                                <div class="mt8">
+                                    <field name="show_tax_id" class="oe_inline"/>
+                                    <label for="show_tax_id" class="font-weight-normal ms-1"/>
+                                </div>
+                                <div class="mt4">
+                                    <field name="show_company_registry" class="oe_inline"/>
+                                    <label for="show_company_registry" class="font-weight-normal ms-1"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="Address Display &amp; Layout Engine" id="pdf_invoice_address_block">
+                        <setting id="pdf_invoice_address_mode_setting" string="Address Handling" help="Control customer billing and delivery address visibility">
+                            <div class="content-group">
+                                <div class="mt8">
+                                    <field name="show_billing_address" class="oe_inline"/>
+                                    <label for="show_billing_address" class="font-weight-normal ms-1"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="shipping_address_mode" class="col-lg-4 o_light_label"/>
+                                    <field name="shipping_address_mode"/>
+                                </div>
+                                <div class="text-muted mt8 small">
+                                    When set to "Hide if Matches Billing", duplicate shipping addresses are collapsed, and the billing block expands to 100% width.
+                                </div>
+                            </div>
+                        </setting>
+                        <setting id="pdf_invoice_color_setting" string="Brand Color Accent" help="Primary and secondary colors for table headers and total summaries">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="primary_color" class="col-lg-3 o_light_label"/>
+                                    <field name="primary_color" widget="color"/>
+                                </div>
+                                <div class="row mt8">
+                                    <label for="secondary_color" class="col-lg-3 o_light_label"/>
+                                    <field name="secondary_color" widget="color"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="Status Watermark" id="pdf_invoice_watermark_block">
+                        <setting id="pdf_invoice_watermark_setting" string="Status Stamp" help="Print a diagonal PAID, OVERDUE, DRAFT or CANCELLED stamp across the invoice">
+                            <field name="invoice_watermark_enabled"/>
+                            <div class="content-group" invisible="not invoice_watermark_enabled">
+                                <div class="row mt16">
+                                    <label for="invoice_watermark_color" class="col-lg-3 o_light_label"/>
+                                    <field name="invoice_watermark_color" placeholder="e.g. #9ca3af"/>
+                                </div>
+                                <div class="row mt8">
+                                    <label for="invoice_watermark_intensity" class="col-lg-3 o_light_label"/>
+                                    <field name="invoice_watermark_intensity"/>
+                                </div>
+                                <div class="mt8">
+                                    <field name="invoice_watermark_show_paid" class="oe_inline"/>
+                                    <label for="invoice_watermark_show_paid" class="font-weight-normal ms-1"/>
+                                </div>
+                                <div class="mt4">
+                                    <field name="invoice_watermark_show_overdue" class="oe_inline"/>
+                                    <label for="invoice_watermark_show_overdue" class="font-weight-normal ms-1"/>
+                                </div>
+                                <div class="mt4">
+                                    <field name="invoice_watermark_show_draft" class="oe_inline"/>
+                                    <label for="invoice_watermark_show_draft" class="font-weight-normal ms-1"/>
+                                </div>
+                                <div class="mt4">
+                                    <field name="invoice_watermark_show_cancelled" class="oe_inline"/>
+                                    <label for="invoice_watermark_show_cancelled" class="font-weight-normal ms-1"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="Payment Instructions &amp; Bank Details" id="pdf_invoice_payment_block">
+                        <setting id="pdf_invoice_payment_instructions_setting" string="Bank Details / Wire Instructions" help="Displayed in a dedicated highlighted container below invoice totals">
+                            <field name="payment_instructions" placeholder="Enter bank name, account number/IBAN, SWIFT code, or mobile money transfer steps..."/>
+                        </setting>
+                        <setting id="pdf_invoice_footer_note_setting" string="Invoice Footer Terms" help="Default terms, legal disclaimers, or thank you note">
+                            <field name="invoice_footer_note" placeholder="Thank you for your business."/>
+                        </setting>
+                    </block>
+
+                    <block title="Official Stamp &amp; Authorized Signature" id="pdf_invoice_auth_block">
+                        <setting id="pdf_invoice_stamp_setting" string="Company Stamp / Seal" help="Upload official company stamp image (transparent PNG recommended)">
+                            <field name="company_stamp" widget="image" class="oe_avatar"/>
+                        </setting>
+                        <setting id="pdf_invoice_signature_setting" string="Authorized Signatory" help="Upload authorized signatory PNG and assign person's details">
+                            <div class="content-group">
+                                <div>
+                                    <field name="authorized_signature" widget="image" class="oe_avatar"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="authorized_signatory_name" class="col-lg-3 o_light_label"/>
+                                    <field name="authorized_signatory_name" placeholder="e.g. Jane Doe"/>
+                                </div>
+                                <div class="row mt8">
+                                    <label for="authorized_signatory_title" class="col-lg-3 o_light_label"/>
+                                    <field name="authorized_signatory_title" placeholder="e.g. Managing Director"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>
