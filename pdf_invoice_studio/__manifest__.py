@@ -25,9 +25,11 @@ Tested against Odoo 17.0.
 
 """,
     'author': 'Codzure Solutions',
-    # TODO: point this at a real support destination before launch.
-    # https://github.com/codzure returned 404; this profile is reachable.
     'website': 'https://github.com/mutugileo',
+    # Odoo's vendor guidelines: the address used for claims and support
+    # requests. It is shown only to people who have bought the app, so it is
+    # not exposed on the public listing page.
+    'support': 'codzuresolutions@gmail.com',
     'license': 'OPL-1',
     # Odoo reads the listing price from the manifest. Only EUR and USD are
     # supported. Odoo also requires this to be the lowest price the module is
