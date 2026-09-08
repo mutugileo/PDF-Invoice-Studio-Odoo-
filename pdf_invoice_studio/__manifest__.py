@@ -27,6 +27,11 @@ Tested against Odoo 17.0.
     'author': 'Codzure',
     'website': 'https://github.com/codzure',
     'license': 'OPL-1',
+    # Odoo reads the listing price from the manifest. Only EUR and USD are
+    # supported. Odoo also requires this to be the lowest price the module is
+    # offered at anywhere on the web, so do not undercut it elsewhere.
+    'price': 19.00,
+    'currency': 'USD',
     'depends': [
         'base',
         'account',
