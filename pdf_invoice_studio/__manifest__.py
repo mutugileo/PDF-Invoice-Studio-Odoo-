@@ -3,7 +3,12 @@
     'name': 'PDF Invoice Studio',
     'version': '17.0.1.0.0',
     'category': 'Accounting/Invoicing',
-    'summary': 'PAID / OVERDUE / DRAFT status watermark on invoices, plus address collapsing, company stamp and authorised signature',
+    # Store search is keyword driven, so the summary uses the words buyers
+    # actually type. Every term here maps to a feature the module really has -
+    # the vendor guidelines require feature claims to be accurate.
+    'summary': 'Invoice watermark: PAID, OVERDUE, DRAFT stamp on invoice PDF. '
+               'Company stamp, authorised signature, custom tax label, bank details, '
+               'hides duplicate shipping address',
     'description': """
 PDF Invoice Studio for Odoo
 ===========================

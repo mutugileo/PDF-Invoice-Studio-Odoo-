@@ -1,142 +1,177 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>PDF Invoice Studio for Odoo</title>
-</head>
-<body style="margin:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#0f172a; background:#ffffff;">
-
-<div style="max-width:1000px; margin:0 auto; padding:40px 24px;">
+<section class="container py-4">
 
     <!-- ===================== HERO ===================== -->
-    <div style="text-align:center; padding-bottom:34px; border-bottom:1px solid #e2e8f0;">
-        <div style="display:inline-block; background:#fee2e2; color:#991b1b; font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:7px 16px; border-radius:20px;">
-            Accounting &amp; Invoicing
-        </div>
-        <h1 style="font-size:44px; line-height:1.15; margin:20px 0 14px 0; font-weight:800;">PDF Invoice Studio</h1>
-        <p style="font-size:19px; color:#475569; max-width:680px; margin:0 auto 20px auto; line-height:1.55;">
-            Print a <strong>PAID</strong>, <strong>OVERDUE</strong> or <strong>DRAFT</strong> stamp across your invoices,
-            collapse duplicate addresses, and add a company seal and authorised signature &mdash;
-            all from Invoicing Settings.
+    <div class="text-center pb-4 border-bottom">
+        <h1 class="display-4 font-weight-bold">PDF Invoice Studio</h1>
+        <p class="lead text-muted">
+            Print a <strong>PAID</strong>, <strong>OVERDUE</strong> or <strong>DRAFT</strong>
+            watermark on the invoice PDF, add a company stamp and authorised signature,
+            and stop Odoo printing the same address twice.
         </p>
-        <div style="font-size:14px; color:#057a55; font-weight:700;">
-            Odoo 17.0 &nbsp;&middot;&nbsp; Community &amp; Enterprise &nbsp;&middot;&nbsp; No developer mode, no QWeb editing
-        </div>
+        <p class="font-weight-bold text-success mb-0">
+            Odoo 17.0 &nbsp;&middot;&nbsp; Community &amp; Enterprise &nbsp;&middot;&nbsp;
+            No developer mode, no QWeb editing
+        </p>
     </div>
 
     <!-- ===================== BEFORE / AFTER ===================== -->
-    <div style="padding:44px 0;">
-        <h2 style="font-size:28px; font-weight:800; margin:0 0 8px 0;">The same invoice, before and after</h2>
-        <p style="font-size:16px; color:#64748b; margin:0 0 22px 0; line-height:1.6;">
-            Both pages below are real PDFs from the same Odoo 17 database and the same invoice.
-            The only difference is that the module is installed on the right.
+    <div class="py-4">
+        <h2 class="font-weight-bold">The same invoice, before and after</h2>
+        <p class="text-muted">
+            Both pages below are real PDFs from the same Odoo 17 database and the same
+            invoice. The only difference is that the module is installed on the right.
         </p>
-        <img src="comparison.png" alt="Stock Odoo invoice compared with PDF Invoice Studio"
-             style="width:100%; border:1px solid #e2e8f0; border-radius:8px;"/>
+        <img src="comparison.png" class="img-fluid border rounded"
+             alt="Stock Odoo invoice compared with PDF Invoice Studio"/>
     </div>
 
-    <!-- ===================== WHAT IT ADDS ===================== -->
-    <div style="padding:10px 0 30px 0;">
-        <h2 style="font-size:28px; font-weight:800; margin:0 0 22px 0;">What it adds to Odoo</h2>
+    <!-- ===================== FEATURES ===================== -->
+    <div class="py-2">
+        <h2 class="font-weight-bold mb-4">What it adds to Odoo</h2>
 
-        <div style="border:1px solid #e2e8f0; border-radius:10px; padding:22px 24px; margin-bottom:16px;">
-            <h3 style="margin:0 0 8px 0; font-size:20px; font-weight:700;">Status watermark</h3>
-            <p style="margin:0; color:#475569; font-size:16px; line-height:1.6;">
-                A diagonal <strong>PAID</strong>, <strong>PARTIALLY PAID</strong>, <strong>OVERDUE</strong>,
-                <strong>DRAFT</strong>, <strong>CANCELLED</strong> or <strong>REVERSED</strong> stamp, driven by the
-                invoice's own status. Odoo has no watermark of any kind, so today that status is only readable
-                from the payment table at the foot of the page. Pick the colour, the strength, and which
-                statuses are stamped. The stamp prints as a hollow outline so the amounts underneath stay legible.
+        <div class="border rounded p-3 mb-3">
+            <h3 class="h5 font-weight-bold">Invoice status watermark</h3>
+            <p class="text-muted mb-0">
+                A diagonal <strong>PAID</strong>, <strong>PARTIALLY PAID</strong>,
+                <strong>OVERDUE</strong>, <strong>DRAFT</strong>, <strong>CANCELLED</strong>
+                or <strong>REVERSED</strong> stamp, driven by the invoice's own payment
+                status. Standard Odoo has no watermark, so payment status is only readable
+                from the payment table at the foot of the page. Choose the colour, the
+                strength, and which statuses are stamped. The stamp prints as a hollow
+                outline so the amounts underneath stay readable.
             </p>
         </div>
 
-        <div style="border:1px solid #e2e8f0; border-radius:10px; padding:22px 24px; margin-bottom:16px;">
-            <h3 style="margin:0 0 8px 0; font-size:20px; font-weight:700;">Dynamic address collapsing</h3>
-            <p style="margin:0; color:#475569; font-size:16px; line-height:1.6;">
-                When the shipping address simply repeats the billing address, Odoo prints it twice.
-                This hides the duplicate and widens the remaining block so there is no empty gap.
-                Choose <em>always show</em>, <em>hide when it matches</em>, or <em>never show</em> &mdash;
-                the last is useful for digital and service businesses with nothing to ship.
+        <div class="border rounded p-3 mb-3">
+            <h3 class="h5 font-weight-bold">Company stamp and authorised signature</h3>
+            <p class="text-muted mb-0">
+                Upload an official company seal and a signature image, with the signatory's
+                name and job title printed beneath. Expected on invoices in many
+                jurisdictions, and not a field standard Odoo provides.
             </p>
         </div>
 
-        <div style="border:1px solid #e2e8f0; border-radius:10px; padding:22px 24px; margin-bottom:16px;">
-            <h3 style="margin:0 0 8px 0; font-size:20px; font-weight:700;">Company seal and authorised signature</h3>
-            <p style="margin:0; color:#475569; font-size:16px; line-height:1.6;">
-                Upload an official seal and a signature image, with the signatory's name and job title
-                printed beneath. Expected on invoices in many jurisdictions, and not a field Odoo has.
+        <div class="border rounded p-3 mb-3">
+            <h3 class="h5 font-weight-bold">Duplicate address collapsing</h3>
+            <p class="text-muted mb-0">
+                When the delivery address simply repeats the invoice address, Odoo prints it
+                twice. This hides the duplicate and widens the remaining block so there is no
+                empty gap. Choose <em>always show</em>, <em>hide when it matches</em>, or
+                <em>never show</em> &mdash; the last suits digital and service businesses
+                with nothing to ship.
             </p>
         </div>
 
-        <div style="border:1px solid #e2e8f0; border-radius:10px; padding:22px 24px; margin-bottom:16px;">
-            <h3 style="margin:0 0 8px 0; font-size:20px; font-weight:700;">Your own fiscal label</h3>
-            <p style="margin:0; color:#475569; font-size:16px; line-height:1.6;">
-                Odoo prints a hardcoded &ldquo;Tax ID&rdquo;. Print <strong>KRA PIN</strong>,
-                <strong>GSTIN</strong>, <strong>VAT No</strong> or whatever your tax authority calls it,
-                on both your company and your customer. Add your company registration number to the header,
-                and set the document heading to <strong>TAX INVOICE</strong> or your own wording.
+        <div class="border rounded p-3 mb-3">
+            <h3 class="h5 font-weight-bold">Custom tax label and registration number</h3>
+            <p class="text-muted mb-0">
+                Odoo prints a fixed &ldquo;Tax ID&rdquo; label. Print <strong>KRA PIN</strong>,
+                <strong>GSTIN</strong>, <strong>VAT No</strong>, <strong>TIN</strong> or
+                whatever your tax authority uses, on both your company and your customer. Add
+                your company registration number to the header and set the document heading to
+                <strong>TAX INVOICE</strong> or your own wording.
             </p>
         </div>
 
-        <div style="border:1px solid #e2e8f0; border-radius:10px; padding:22px 24px;">
-            <h3 style="margin:0 0 8px 0; font-size:20px; font-weight:700;">Payment instructions block</h3>
-            <p style="margin:0; color:#475569; font-size:16px; line-height:1.6;">
-                A formatted panel below the totals for bank details, IBAN/SWIFT, mobile money paybills
-                or any transfer instructions, plus a footer note for your payment terms.
+        <div class="border rounded p-3">
+            <h3 class="h5 font-weight-bold">Bank details and payment instructions</h3>
+            <p class="text-muted mb-0">
+                A formatted panel below the totals for bank account details, IBAN, SWIFT,
+                mobile money paybill numbers or any transfer instructions, plus a footer note
+                for your payment terms.
             </p>
         </div>
     </div>
 
     <!-- ===================== SCREENSHOTS ===================== -->
-    <div style="padding:10px 0 30px 0;">
-        <h2 style="font-size:28px; font-weight:800; margin:0 0 20px 0;">On the document</h2>
+    <div class="py-4">
+        <h2 class="font-weight-bold mb-3">On the document</h2>
 
-        <p style="font-size:15px; color:#64748b; margin:0 0 10px 0; font-weight:600;">Document heading, fiscal label and branded billing block</p>
-        <img src="screenshot_header.png" alt="Invoice heading with custom title and fiscal label"
-             style="width:100%; border:1px solid #e2e8f0; border-radius:8px; margin-bottom:26px;"/>
+        <p class="text-muted font-weight-bold mb-2">
+            Document heading, tax label and branded invoice address block
+        </p>
+        <img src="screenshot_header.png" class="img-fluid border rounded mb-4"
+             alt="Invoice heading with custom title and tax label"/>
 
-        <p style="font-size:15px; color:#64748b; margin:0 0 10px 0; font-weight:600;">Status watermark, printed so the figures stay readable</p>
-        <img src="screenshot_watermark.png" alt="OVERDUE watermark across the invoice"
-             style="width:100%; border:1px solid #e2e8f0; border-radius:8px; margin-bottom:26px;"/>
+        <p class="text-muted font-weight-bold mb-2">
+            Status watermark, printed so the figures stay readable
+        </p>
+        <img src="screenshot_watermark.png" class="img-fluid border rounded mb-4"
+             alt="OVERDUE watermark printed across the invoice PDF"/>
 
-        <p style="font-size:15px; color:#64748b; margin:0 0 10px 0; font-weight:600;">Payment instructions, corporate seal and authorised signature</p>
-        <img src="screenshot_signature.png" alt="Payment details, company seal and signature"
-             style="width:100%; border:1px solid #e2e8f0; border-radius:8px;"/>
+        <p class="text-muted font-weight-bold mb-2">
+            Bank details, company seal and authorised signature
+        </p>
+        <img src="screenshot_signature.png" class="img-fluid border rounded"
+             alt="Payment instructions, company stamp and signature on the invoice"/>
     </div>
 
     <!-- ===================== SETUP ===================== -->
-    <div style="padding:10px 0 34px 0;">
-        <h2 style="font-size:28px; font-weight:800; margin:0 0 16px 0;">Setting it up</h2>
-        <ol style="font-size:16px; color:#475569; line-height:1.9; margin:0; padding-left:22px;">
-            <li>Install the module from Apps.</li>
-            <li>Go to <strong>Invoicing &rarr; Configuration &rarr; Settings</strong>.</li>
-            <li>Open the <strong>PDF Invoice Studio</strong> section and fill in your details.</li>
+    <div class="py-2">
+        <h2 class="font-weight-bold mb-3">Setting it up</h2>
+        <ol class="text-muted">
+            <li class="mb-2">Install the module from Apps.</li>
+            <li class="mb-2">Go to <strong>Invoicing &rarr; Configuration &rarr; Settings</strong>.</li>
+            <li class="mb-2">Open the <strong>PDF Invoice Studio</strong> section and fill in your details.</li>
             <li>Print any invoice.</li>
         </ol>
-        <p style="font-size:15px; color:#64748b; margin:16px 0 0 0; line-height:1.6;">
-            Every setting lives on the company record, so multi-company databases keep separate
-            branding per company. Nothing is written to the invoice itself, so changing a setting
-            takes effect on the next print.
+        <p class="text-muted">
+            Every setting is stored on the company record, so multi-company databases keep
+            separate branding per company. Nothing is written to the invoice itself, so
+            changing a setting takes effect on the next print.
         </p>
     </div>
 
-    <!-- ===================== HONEST NOTES ===================== -->
-    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:24px 26px; margin-bottom:34px;">
-        <h2 style="font-size:20px; font-weight:800; margin:0 0 12px 0;">Worth knowing before you buy</h2>
-        <ul style="font-size:15px; color:#475569; line-height:1.75; margin:0; padding-left:20px;">
-            <li>The status stamp prints on the <strong>first page</strong> of an invoice, the way a physical stamp is applied. It does not repeat on continuation pages.</li>
-            <li>Built and tested against <strong>Odoo 17.0</strong>. It has not been verified on 16.0 or 18.0.</li>
-            <li>This extends Odoo's standard invoice report through clean template inheritance. It does not replace the report, so other modules that extend the same report continue to work.</li>
-            <li>Odoo 17 already includes a bulk &ldquo;Export ZIP&rdquo; action. This module's export differs in two ways: it always renders the final invoice rather than falling back to a pro-forma for invoices that have not been printed yet, and it includes vendor bills.</li>
+    <!-- ===================== HONEST LIMITATIONS ===================== -->
+    <div class="border rounded p-3 my-4">
+        <h2 class="h5 font-weight-bold">Worth knowing before you buy</h2>
+        <ul class="text-muted mb-0">
+            <li class="mb-2">
+                The status watermark prints on the <strong>first page</strong> of an invoice,
+                the way a physical stamp is applied. It does not repeat on continuation pages.
+            </li>
+            <li class="mb-2">
+                Built and tested against <strong>Odoo 17.0</strong>. It has not been verified
+                on 16.0 or 18.0.
+            </li>
+            <li class="mb-2">
+                This extends Odoo's standard invoice report through template inheritance
+                rather than replacing it, so other modules that extend the same report
+                continue to work.
+            </li>
+            <li>
+                Odoo 17 already includes a bulk &ldquo;Export ZIP&rdquo; action. This module's
+                export differs in two ways: it always renders the final invoice rather than
+                falling back to a pro-forma for invoices not yet printed, and it includes
+                vendor bills.
+            </li>
         </ul>
     </div>
 
-    <!-- ===================== FOOTER ===================== -->
-    <div style="text-align:center; padding-top:26px; border-top:1px solid #e2e8f0; color:#64748b; font-size:14px;">
-        <div style="font-weight:700; color:#0f172a; font-size:16px; margin-bottom:6px;">Codzure Solutions</div>
-        <div>Questions or a feature request? Get in touch through the App Store contact link.</div>
+    <!-- ===================== KEYWORDS ===================== -->
+    <div class="py-2 border-top">
+        <p class="text-muted font-weight-bold mb-2">Also known as</p>
+        <p class="text-muted">
+            Invoice watermark Odoo, PAID stamp on invoice PDF, invoice paid watermark,
+            overdue invoice stamp, draft invoice watermark, cancelled invoice watermark,
+            payment status on invoice, invoice stamp and signature, company stamp on invoice,
+            authorised signatory on invoice, digital signature on invoice PDF, invoice seal,
+            custom invoice report, branded invoice Odoo, invoice layout customisation,
+            tax invoice template, VAT number on invoice, KRA PIN on invoice, GSTIN on invoice,
+            TIN on invoice, company registration number on invoice, bank details on invoice,
+            payment instructions on invoice, IBAN SWIFT on invoice, mobile money paybill on
+            invoice, hide duplicate shipping address, delivery address same as invoice
+            address, invoice PDF customisation, accounting invoicing report.
+        </p>
     </div>
 
-</div>
-</body>
-</html>
+    <!-- ===================== FOOTER ===================== -->
+    <div class="text-center pt-3 border-top text-muted">
+        <p class="font-weight-bold mb-1">Codzure Solutions</p>
+        <p class="mb-0">
+            Support requests and feature ideas:
+            <a href="mailto:codzuresolutions@gmail.com">codzuresolutions@gmail.com</a>
+        </p>
+    </div>
+
+</section>
