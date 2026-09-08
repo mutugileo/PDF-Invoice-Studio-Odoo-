@@ -81,4 +81,4 @@ at the relevant line; this is the summary.
 
 ## Licence
 
-OPL-1. Copyright (c) Codzure.
+OPL-1. Copyright (c) Codzure Solutions.

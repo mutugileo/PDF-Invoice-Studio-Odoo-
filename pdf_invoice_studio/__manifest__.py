@@ -24,7 +24,7 @@ Configured entirely from Invoicing, Configuration, Settings. No developer mode, 
 Tested against Odoo 17.0.
 
 """,
-    'author': 'Codzure',
+    'author': 'Codzure Solutions',
     'website': 'https://github.com/codzure',
     'license': 'OPL-1',
     # Odoo reads the listing price from the manifest. Only EUR and USD are
